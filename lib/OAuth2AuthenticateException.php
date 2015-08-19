@@ -24,13 +24,18 @@ class OAuth2AuthenticateException extends OAuth2ServerException
      * @param string $error            The "error" attribute is used to provide the client with the reason why the access request was declined.
      * @param string $errorDescription (optional) Human-readable text containing additional information, used to assist in the understanding and resolution of the error occurred.
      * @param string $scope            (optional) A space-delimited list of scope values indicating the required scope of the access token for accessing the requested resource.
+     * @param string $errorCode         Custom status code for the response
      */
-    public function __construct($httpCode, $tokenType, $realm, $error, $errorDescription = null, $scope = null)
+    public function __construct($httpCode, $tokenType, $realm, $error, $errorDescription = null, $scope = null, $errorCode = null)
     {
         parent::__construct($httpCode, $error, $errorDescription);
 
         if ($scope) {
             $this->errorData['scope'] = $scope;
+        }
+
+        if ($errorCode) {
+            $this->errorData['code'] = $errorCode;
         }
 
         // Build header

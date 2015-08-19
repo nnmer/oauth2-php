@@ -500,12 +500,12 @@ class OAuth2
         // Get the stored token data (from the implementing subclass)
         $token = $this->storage->getAccessToken($tokenParam);
         if (!$token) {
-            throw new OAuth2AuthenticateException(self::HTTP_UNAUTHORIZED, $tokenType, $realm, self::ERROR_INVALID_GRANT, 'The access token provided is invalid.', $scope);
+            throw new OAuth2AuthenticateException(self::HTTP_UNAUTHORIZED, $tokenType, $realm, self::ERROR_INVALID_GRANT, 'The access token provided is invalid.', $scope, 460);
         }
 
         // Check token expiration (expires is a mandatory paramter)
         if ($token->hasExpired()) {
-            throw new OAuth2AuthenticateException(self::HTTP_UNAUTHORIZED, $tokenType, $realm, self::ERROR_INVALID_GRANT, 'The access token provided has expired.', $scope);
+            throw new OAuth2AuthenticateException(self::HTTP_UNAUTHORIZED, $tokenType, $realm, self::ERROR_INVALID_GRANT, 'The access token provided has expired.', $scope, 461);
         }
 
         // Check scope, if provided
@@ -980,11 +980,11 @@ class OAuth2
         $token = $this->storage->getRefreshToken($input["refresh_token"]);
 
         if ($token === null || $client->getPublicId() !== $token->getClientId()) {
-            throw new OAuth2ServerException(self::HTTP_BAD_REQUEST, self::ERROR_INVALID_GRANT, 'Invalid refresh token');
+            throw new OAuth2ServerException(self::HTTP_BAD_REQUEST, self::ERROR_INVALID_GRANT, 'Invalid refresh token', 470);
         }
 
         if ($token->hasExpired()) {
-            throw new OAuth2ServerException(self::HTTP_BAD_REQUEST, self::ERROR_INVALID_GRANT, 'Refresh token has expired');
+            throw new OAuth2ServerException(self::HTTP_BAD_REQUEST, self::ERROR_INVALID_GRANT, 'Refresh token has expired', 471);
         }
 
         // store the refresh token locally so we can delete it when a new refresh token is generated
