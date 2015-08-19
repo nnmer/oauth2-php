@@ -23,12 +23,17 @@ class OAuth2ServerException extends \Exception
      * @param string $httpStatusCode   HTTP status code message as predefined.
      * @param string $error            A single error code.
      * @param string $errorDescription (optional) A human-readable text providing additional information, used to assist in the understanding and resolution of the error occurred.
+     * @param string $errorCode        Custom status code for the response
      */
-    public function __construct($httpStatusCode, $error, $errorDescription = null)
+    public function __construct($httpStatusCode, $error, $errorDescription = null, $errorCode = null)
     {
         parent::__construct($error);
 
         $this->httpCode = $httpStatusCode;
+
+        if ($errorCode) {
+            $this->errorData['code'] = $errorCode;
+        }
 
         $this->errorData['error'] = $error;
         $this->errorData['error_description'] = $errorDescription;
